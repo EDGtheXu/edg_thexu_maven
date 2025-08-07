@@ -1,0 +1,107 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.github.edg_thexu",
+    "module": "cafe-lib",
+    "version": "1.0.1+1-20-1-forge",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.8"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "cafe-lib-1.0.1+1-20-1-forge.jar",
+          "url": "cafe-lib-1.0.1+1-20-1-forge.jar",
+          "size": 48025,
+          "sha512": "923b1fceea2dfef216b33cb55889b76270914b62c313e8cc0b933b08de9cccdeb98a8b14058a73ccf6400b2e3e44de0fe75d152122d5e6e58bd69951b48fff74",
+          "sha256": "972d93d5d9631bb1d486272129553c3e16d0a52e7f3c13e993bc7ba83829eeb3",
+          "sha1": "50b8b6c81a5ea3473d95d9c1681e2982c9149423",
+          "md5": "1845c01c61337da4d1536a1256dfbc22"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.llamalad7",
+          "module": "mixinextras-forge",
+          "version": {
+            "requires": "0.3.6"
+          },
+          "attributes": {
+            "jarJarRange": "[0.3.6,)"
+          }
+        },
+        {
+          "group": "net.minecraftforge",
+          "module": "forge",
+          "version": {
+            "requires": "1.20.1-47.3.0_mapped_parchment_2023.08.20-1.20.1_at_da39a3ee5e6b4b0d3255bfef95601890afd80709"
+          }
+        },
+        {
+          "group": "mezz.jei",
+          "module": "jei-1.20.1-forge",
+          "version": {
+            "strictly": "15.20.0.112_mapped_parchment_2023.08.20-1.20.1",
+            "requires": "15.20.0.112_mapped_parchment_2023.08.20-1.20.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "cafe-lib-1.0.1+1-20-1-forge.jar",
+          "url": "cafe-lib-1.0.1+1-20-1-forge.jar",
+          "size": 48025,
+          "sha512": "923b1fceea2dfef216b33cb55889b76270914b62c313e8cc0b933b08de9cccdeb98a8b14058a73ccf6400b2e3e44de0fe75d152122d5e6e58bd69951b48fff74",
+          "sha256": "972d93d5d9631bb1d486272129553c3e16d0a52e7f3c13e993bc7ba83829eeb3",
+          "sha1": "50b8b6c81a5ea3473d95d9c1681e2982c9149423",
+          "md5": "1845c01c61337da4d1536a1256dfbc22"
+        }
+      ]
+    },
+    {
+      "name": "shadowRuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "shadowed",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "cafe-lib-1.0.1+1-20-1-forge-all.jar",
+          "url": "cafe-lib-1.0.1+1-20-1-forge-all.jar",
+          "size": 99963534,
+          "sha512": "fb27fbaabf717ec9157a6b50bf0c7e5a12120855996e14e6ff7cef952512b6efda5d227a9bb0a582bb41731248da329516a99fa451264587067df9b0cb7d0318",
+          "sha256": "4f500a63eb0e7028eb220bdb8737b48c66681d0e96a2d5c2723b19f9f395f7f0",
+          "sha1": "56a027b3c9052cfdf6c00da8fbcbb2fc19f9acd6",
+          "md5": "d1915cadb9bad156ee8bee5ad494bbcc"
+        }
+      ]
+    }
+  ]
+}

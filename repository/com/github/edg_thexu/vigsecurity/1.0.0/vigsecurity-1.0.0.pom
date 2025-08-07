@@ -8,8 +8,22 @@
     <artifactId>vigsecurity</artifactId>
     <version>1.0.0</version>
 
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 优先使用环境变量，否则回退到项目目录 -->
+        <deploy.repo.dir>${env.GIT_MAVEN_PATH}</deploy.repo.dir>
+    </properties>
+
+
     <build>
+
         <plugins>
+
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -45,15 +59,31 @@
             </plugin>
 
             <plugin>
+
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.1.2</version>
+
+                <version>3.2.1</version>
+                <configuration>
+                    <skipSource>true</skipSource> <!-- 跳过源码打包 -->
+                </configuration>
+
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                    </execution>
+
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals><goal>jar-no-fork</goal></goals>
+                        <!-- 关键：禁用源码生成 -->
+                        <configuration>
+                            <skipSource>true</skipSource>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -89,6 +119,7 @@
                         <goals>
                             <goal>run</goal>
                         </goals>
+
                         <configuration>
                             <tasks>
                                 <!--suppress UnresolvedMavenProperty -->
@@ -98,13 +129,55 @@
                     </execution>
                 </executions>
             </plugin>
+
+
+            <plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <version>2.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase> <!-- 在 package 阶段执行混淆 -->
+                        <goals>
+                            <goal>proguard</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- 混淆规则配置 -->
+                    <proguardVersion>7.2.2</proguardVersion>
+                    <injar>${project.build.finalName}.jar</injar> <!-- 输入 JAR（原始未混淆） -->
+                    <outjar>${project.build.finalName}.jar</outjar> <!-- 输出 JAR（混淆后） -->
+                    <obfuscate>true</obfuscate> <!-- 启用混淆 -->
+                    <options>
+<!--                        <option>-applymapping ${project.basedir}/proguard-mapping.txt</option>-->
+                        <option>-classobfuscationdictionary ${project.basedir}/proguard-mapping.txt</option>
+                        <option>-obfuscationdictionary ${project.basedir}/proguard-mapping.txt</option>
+                        <option>-keep public class com.github.edg_thexu.security.SecurityWrapper </option>
+                        <option>-libraryjars ${java.home}/jmods/java.base.jmod(!**.jar;!module-info.class)</option>
+                        <option>-dontoptimize </option>
+                        <option>-dontshrink </option>
+                    </options>
+<!--                    <libs>-->
+<!--                        &lt;!&ndash; 添加 JDK 库（避免反射问题） &ndash;&gt;-->
+<!--                        <lib>${java.home}/jmods/java.base.jmod</lib>-->
+<!--                    </libs>-->
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.7</version>
+                <version>2.8.2</version>
                 <configuration>
+                    <!-- 使用混淆后的 JAR 作为最终产物 -->
+<!--                    <finalName>${project.build.finalName}-obfuscated.jar</finalName>-->
+                    <!-- 跳过所有附件（包括源码、Javadoc 等） -->
+<!--                    <deployAtEnd>true</deployAtEnd>-->
+
+                    <skip>false</skip> <!-- 确保主部署不跳过 -->
                     <!-- 特别注意的地方：指定打包的目录 -->
-                    <altDeploymentRepository>internal.repo::default::file://${project.basedir}/maven-repository/repository</altDeploymentRepository>
+                    <altDeploymentRepository>internal.repo::default::file://${deploy.repo.dir}/repository</altDeploymentRepository>
                 </configuration>
             </plugin>
 
@@ -113,11 +186,5 @@
     </build>
 
 
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
 </project>
